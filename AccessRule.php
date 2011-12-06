@@ -11,7 +11,6 @@ class AccessRule extends CComponent
 	/**
 	 * @var string the error message to be displayed when authorization is denied by this rule.
 	 * If not set, a default error message will be displayed.
-	 * @since 1.1.1
 	 */
 	public $message;
 

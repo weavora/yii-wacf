@@ -7,7 +7,6 @@ class AccessControlFilter extends CFilter
 	 * @var string the error message to be displayed when authorization fails.
 	 * This property can be overridden by individual access rule via {@link CAccessRule::message}.
 	 * If this property is not set, a default error message will be displayed.
-	 * @since 1.1.1
 	 */
 	public $message;
 	private $_rules = array();
@@ -33,12 +32,19 @@ class AccessControlFilter extends CFilter
 					if ($name === 'message') {
 						$r->$name = $value;
 					} else {
+						if(is_numeric($name)){
+							$name = $value;
+						}
 						$className = 'AccessControl' . ucfirst($name) . 'Term';
 						if (!class_exists($className)) {
-							throw new Exception("Class not found"); //@todo need throw other exception
+							throw new Exception("Class not found");
 						}
 						if (is_array($value)) {
-							$value = array_map('strtolower', $value);
+							foreach ($value as $k => $v){
+								if(is_string($v)){
+									strtolower($value[$k]);
+								}
+							}
 						}
 						$r->addTerm(new $className($value));
 					}
@@ -79,7 +85,6 @@ class AccessControlFilter extends CFilter
 	 * what error message should be displayed.
 	 * @param AccessRule $rule the access rule
 	 * @return string the error message
-	 * @since 1.1.1
 	 */
 	protected function resolveErrorMessage($rule)
 	{
@@ -96,7 +101,6 @@ class AccessControlFilter extends CFilter
 	 * This method is invoked when access check fails.
 	 * @param IWebUser $user the current user
 	 * @param string $message the error message to be displayed
-	 * @since 1.0.5
 	 */
 	protected function accessDenied($user, $message)
 	{

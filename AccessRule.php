@@ -1,5 +1,10 @@
 <?php
 
+/**
+ *  @author Weavora Team <hello@weavora.com>
+ * 	@link http://weavora.com
+ * 	@copyright Copyright (c) 2011 Weavora LLC
+ */
 class AccessRule extends CComponent
 {
 
@@ -11,6 +16,7 @@ class AccessRule extends CComponent
 	/**
 	 * @var string the error message to be displayed when authorization is denied by this rule.
 	 * If not set, a default error message will be displayed.
+	 * @since 1.1.1
 	 */
 	public $message;
 

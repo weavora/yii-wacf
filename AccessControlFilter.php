@@ -1,5 +1,10 @@
 <?php
 
+/**
+ *  @author Weavora Team <hello@weavora.com>
+ * 	@link http://weavora.com
+ * 	@copyright Copyright (c) 2011 Weavora LLC
+ */
 class AccessControlFilter extends CFilter
 {
 
@@ -32,16 +37,16 @@ class AccessControlFilter extends CFilter
 					if ($name === 'message') {
 						$r->$name = $value;
 					} else {
-						if(is_numeric($name)){
+						if (is_numeric($name)) {
 							$name = $value;
 						}
 						$className = 'AccessControl' . ucfirst($name) . 'Term';
 						if (!class_exists($className)) {
-							throw new Exception("Class not found");
+							throw new Exception("Class not found " . $className);
 						}
 						if (is_array($value)) {
-							foreach ($value as $k => $v){
-								if(is_string($v)){
+							foreach ($value as $k => $v) {
+								if (is_string($v)) {
 									strtolower($value[$k]);
 								}
 							}

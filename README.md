@@ -1,24 +1,24 @@
-﻿Access Control Filter
+Yii Framework - Access Control Filter
 ========
 
-Extension for Yii Framework to extend standard abilities of build-in Access Control Filter. It fully compatible with
-native access control filter, support all access rules and not require changing them after setup.
+This Yii Framework extension is used to extend standard abilities of build-in Access Control Filter. It is fully compatible with
+native access control filter, support all access rules and do not require it's changing upon setup.
 
 **Features included**:
 
-* Standard access control filter abilities (100% compatible with native rule-set)
-* 1-step integration
-* Custom access rule terms support
-* Success and fail events after rules validation
+* Standard access control filter features (100% compatible with native rule-set)
+* 1-click integration - ???
+* Custom access rule support
+* Success and fail events upon rules validation
 * Resource access control term
 
 **What is term?**
 
-Term is part of rule which impose some condition. Standard access control filter support 5 terms: actions, controllers,
-users, roles, ips, verbs, expression, message.
+Term is a rule part that impose some condition. Standard access control filter supports 8 terms: actions, controllers,
+users, roles, ips, verbs, expression, message
 
-Our extension provide you 2 additional term:
-* __resource__ to validate user permissions to manipulate specified models
+Our extension provides you with 2 additional terms:
+* __resource__ to validate user permissions on specified models manipulation
 * __callback__ to execute custom code for validation instead of inline expression (for study purposes mostly)
 
 Requirements
@@ -29,9 +29,9 @@ This module was tested with 1.1.8 but should work with any version.
 Configuration
 -------------
 
-1. Download and unpack source to protected/extensions/ folder.
+1. Download and unpack source into protected/extensions/ folder.
 
-2. There are config settings of import section below:
+2. There are config settings for import section below:
 
 	// main.php
 	return array(
@@ -49,25 +49,24 @@ Creating Custom Access Rule Terms
 ------------
 
 Creation of your own custom access control rule term is quite simple. You need to define class extended
-form AccessControlTerm and implement match() method. Match() should return **true** if criterias successfully met,
-or **false** they fail.
+from AccessControlTerm and implement match() method. Match() should return **true** if criterias were successful,
+or **false** if they fail.
 
 **Example 1: donothing term**
 
-// definition
-// protected/components/AccessControlDonothingTerm.php
-class AccessControlDonothingTerm extends AccessControlTerm
-{
-	public function match()
+	// definition
+	// protected/components/AccessControlDonothingTerm.php
+	class AccessControlDonothingTerm extends AccessControlTerm
 	{
-		// always match depends on 'result' option defined into accessRules.
-		return isset($this->params['result']) ? $this->params['result'] : true;
+		public function match()
+		{
+			// always match depends on 'result' option defined into accessRules.
+			return isset($this->params['result']) ? $this->params['result'] : true;
+		}
 	}
-
-}
-
-// usage
-// protected/controller/MyController.php
+	
+	// usage
+	// protected/controller/MyController.php
 	...
 	public function accessRules()
 	{
@@ -88,22 +87,20 @@ class AccessControlDonothingTerm extends AccessControlTerm
 
 **Example 2: callback term**
 
-Please, note that AccessControlCallbackTerm provides with extension.
+Please, note that AccessControlCallbackTerm provided with extension.
 
-// definition
-// protected/extensions/wacf/term/AccessControlCallbackTerm.php
-class AccessControlCallbackTerm extends AccessControlTerm
-{
-	public function match()
+	// definition
+	// protected/extensions/wacf/term/AccessControlCallbackTerm.php
+	class AccessControlCallbackTerm extends AccessControlTerm
 	{
-		return call_user_func($this->params, Yii::app()->getUser());
+		public function match()
+		{
+			return call_user_func($this->params, Yii::app()->getUser());
+		}
 	}
-
-}
-
-
-// usage
-// protected/controller/MyController.php
+	
+	// usage
+	// protected/controller/MyController.php
 	...
 	public function accessRules()
 	{
@@ -126,42 +123,43 @@ class AccessControlCallbackTerm extends AccessControlTerm
 Resource Access Rule Term
 ------------
 
-Time to time we need to restrict user access to specified models. E.g. user could manage only own products,
-delete only own comments and etc.
+Time to time we need to restrict user access to specified models. E.g. user could manage only his own products or
+delete only his own comments etc.
 
-Each time for such action we used something like:
+Each time for such an action we use something like:
+
 	if (Yii::app->user->hasAccessTo($model)) {..}
 	// or
 	if ($model->user_id == Yii::app()->user->id) {..}
 
-To prevent code duplication and perform access control more clear and declarative, we implemented 'resource' term.
+To prevent code duplication and perform access control more clearly and declaratively, we implemented 'resource' term.
 
-We assume that model id would be put into request var ($_GET['id'] or $_POST['ProductForm']['id'])
-and one of model attributes/methods will be declare ownership.
+!!!We assume that model id would be placed in request var ($_GET['id'] or $_POST['ProductForm']['id'])
+and one of model attributes/methods will declare ownership. - ???
 
 **Params**
 
-* model - specify resource model. It could be object (Comment::model), or class name ('Comment'), or empty/not-defined.
-In the last case model class will be get from controller class: modelClass = str_replace('Controller', '', controllerClass).
-* params - specify where to look for model primary key. It could be string ('id'),
-or primary key mapping (array('id', 'CommentForm.id')),
+* model - specify resource model. It can be an object (Comment::model), or class name ('Comment'), or empty/not-defined.
+In the last case, model class will be taken from controller class: modelClass = str_replace('Controller', '', controllerClass).
+* params - specify where to look for model primary key. It can be a string ('id'), or primary key mapping (array('id', 'CommentForm.id')),
 or other field mapping (
+	
 	array(
 		'some_field1' => array('some_field1', 'CommentForm.some_field1'),
 		'some_field2' => array('some_field2', 'CommentForm.some_field2')
 	), or not-defined.
+
 Default: array('id', $modelClassName . '.id', $modelClassName . 'Form.id')
 * ownerField - specify ownership attribute. Default: user_id
 * webUserId - specify WebUser attribute that will be compared with ownerField to determine ownership
 
 **Usage examples**
 
-// protected/controller/CommentController.php
+	// protected/controller/CommentController.php
 	...
 	public function accessRules()
 	{
 		return array(
-
 			// allow edit only own comments
 			array('allow',
 				'actions' => array('edit', 'delete'),
@@ -187,7 +185,7 @@ Default: array('id', $modelClassName . '.id', $modelClassName . 'Form.id')
 
 **Example: give access to product owner or superadmin**
 
-// protected/controller/ProductController.php
+	// protected/controller/ProductController.php
 	...
 	public function accessRules()
 	{
@@ -218,8 +216,8 @@ Default: array('id', $modelClassName . '.id', $modelClassName . 'Form.id')
 Access Control Events Handling
 ------------
 
-You could also handle access control filtering results using events. Extension provide 2 events: onAfterAccessFilterFail and onAfterAccessFilterSuccess.
-Could be useful when you want to prevent '403 Access denied' exception and use redirect instead.
+You can also handle access control filtering results using events. Extension provide 2 events: onAfterAccessFilterFail and onAfterAccessFilterSuccess.
+It can be useful when you want to prevent '403 Access denied' exception and use redirect instead.
 
 **Usage**
 

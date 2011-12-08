@@ -136,7 +136,7 @@ Each time for such an action we use something like:
 To prevent code duplication and perform access control more clearly and declaratively, we implemented 'resource' term.
 
 !!!We assume that model id would be placed in request var ($_GET['id'] or $_POST['ProductForm']['id'])
-and one of model attributes/methods will declare ownership. - ???
+and one of model attributes/methods will declare ownership.
 
 **Params**
 

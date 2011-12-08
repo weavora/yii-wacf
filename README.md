@@ -7,7 +7,7 @@ native access control filter, support all access rules and do not require it's c
 **Features included**:
 
 * Standard access control filter features (100% compatible with native rule-set)
-* 1-click integration - ???
+* 1-click integration 
 * Custom access rule support
 * Success and fail events upon rules validation
 * Resource access control term
@@ -18,6 +18,7 @@ Term is a rule part that impose some condition. Standard access control filter s
 users, roles, ips, verbs, expression, message
 
 Our extension provides you with 2 additional terms:
+
 * __resource__ to validate user permissions on specified models manipulation
 * __callback__ to execute custom code for validation instead of inline expression (for study purposes mostly)
 

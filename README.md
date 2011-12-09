@@ -8,7 +8,6 @@ This Yii Framework extension is used to extend standard abilities of build-in Ac
 **Features included**:
 
 * Standard access control filter features (100% compatible with native rule-set)
-* 1-click integration 
 * Custom access rule support
 * Success and fail events upon rules validation
 * Resource access control term
@@ -49,6 +48,22 @@ return array(
 );
 ~~~
 
+3. Edit protected/components/Controller.php
+
+~~~
+// protected/components/Controller.php
+
+class Controller extends CController
+{
+	...
+	public function filterAccessControl($filterChain)
+	{
+		$filter = new AccessControlFilter;
+		$filter->setRules($this->accessRules());
+		$filter->filter($filterChain);
+ 	}
+}
+~~~
 
 	
 Creating Custom Access Rule Terms

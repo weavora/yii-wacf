@@ -69,7 +69,7 @@ class AccessControlResourceTerm extends AccessControlTerm
 	private function _getParamValue($param)
 	{
 		if (is_string($param)) {
-			$param = expolode(',', $param);
+			$param = explode(',', $param);
 		}
 
 		if (!is_array($param)) {

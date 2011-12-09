@@ -14,8 +14,8 @@ native access control filter, support all access rules and do not require it's c
 
 **What is term?**
 
-Term is a rule part that impose some condition. Standard access control filter supports 8 terms: actions, controllers,
-users, roles, ips, verbs, expression, message
+Term is a rule part that impose some condition. Standard access control filter supports 7 terms: actions, controllers,
+users, roles, ips, verbs and expression.
 
 Our extension provides you with 2 additional terms:
 

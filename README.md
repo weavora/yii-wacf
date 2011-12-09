@@ -48,7 +48,7 @@ return array(
 );
 ~~~
 
-3. Edit protected/components/Controller.php
+3. Modify protected/components/Controller.php
 
 ~~~
 // protected/components/Controller.php

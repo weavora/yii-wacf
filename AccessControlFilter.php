@@ -45,11 +45,7 @@ class AccessControlFilter extends CFilter
 							throw new Exception("Class not found " . $className);
 						}
 						if (is_array($value)) {
-							foreach ($value as $k => $v) {
-								if (is_string($v)) {
-									strtolower($value[$k]);
-								}
-							}
+							$value=array_map('strtolower',$value);
 						}
 						$r->addTerm(new $className($value));
 					}
